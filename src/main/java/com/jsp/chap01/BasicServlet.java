@@ -9,14 +9,15 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDate;
 
-// 역할: HTTP 통신의 요청과 응답데이터를 손쉽게 처리할 수 있게 도와주는 클래스
-// WAS(톰캣)에게 이 서블릿을 언제 호출할지 URL을 매핑
+// 역할: HTTP 통신의 요청과 응답 데이터를 손쉽게 처리할
+// 수 있게 도와주는 클래스
 
+// WAS (톰캣) 에게 이 서블릿을 언제 호출할지 URL을 매핑
 @WebServlet("/login")
-public class BasicServlet extends HttpServlet{
+public class BasicServlet extends HttpServlet {
 
     public BasicServlet() {
-        System.out.println("\n\n\nBasic Servlet 객체가 생성됨!\n");
+        System.out.println("\n\n\nBasic Servlet 객체가 생성됨!\n\n\n");
     }
 
     // 서버는 클라이언트에서 요청이 들어오면
@@ -37,8 +38,6 @@ public class BasicServlet extends HttpServlet{
         // 요청 헤더 정보 읽기
         String header = req.getHeader("Cache-Control");
 
-
-
         System.out.println("method = " + method);
         System.out.println("requestURI = " + requestURI);
         System.out.println("queryString = " + queryString);
@@ -54,8 +53,8 @@ public class BasicServlet extends HttpServlet{
         System.out.println("grade = " + grade);
 
         // 서버의 응답 처리
-        // 비즈니스 로직 : 나이를 기반으로 출생연도를 계산
-        //    학점이 F면 과락처리, 아니면 통과처리
+        // 비즈니스 로직 : 나이를 기반으로 출생년도를 계산
+        //   학점이 F면 과락처리, 아니면 통과처리
         int birthYear = 0;
         try {
             birthYear = LocalDate.now().getYear() - Integer.parseInt(age) + 1;
@@ -89,10 +88,9 @@ public class BasicServlet extends HttpServlet{
         w.write("   \t<h1>\n");
         w.write(String.format("%s님은 %d년생입니다.", name, birthYear));
         w.write("   </h1>\n");
-        w.write("<h2>" + message + "</h2>\n");
+        w.write("<h2>" + message + "</h2>");
         w.write("</body>\n");
         w.write("</html>");
-
 
     }
 }

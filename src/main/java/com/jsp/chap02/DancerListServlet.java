@@ -32,6 +32,7 @@ public class DancerListServlet extends HttpServlet {
         w.write("<ul>");
 
         List<Dancer> dancerList = DancerSaveProcessServlet.dancerList;
+
         for (Dancer foundDancer : dancerList) {
             w.write(String.format("<li># 이름 : %s, 크루명: %s, 수준: %s, 공연당페이: %d원, 장르: %s</li>\n"
                     , foundDancer.getName(), foundDancer.getCrewName(),

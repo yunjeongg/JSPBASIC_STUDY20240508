@@ -17,6 +17,7 @@ public class DancerRegisterServlet extends HttpServlet {
 
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
         resp.setContentType("text/html");
         resp.setCharacterEncoding("utf-8");
 
@@ -39,7 +40,6 @@ public class DancerRegisterServlet extends HttpServlet {
         w.write("</form>");
         w.write("</body>\n");
         w.write("</html>");
-
 
 
     }

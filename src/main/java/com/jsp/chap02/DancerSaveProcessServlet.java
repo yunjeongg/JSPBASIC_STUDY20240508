@@ -19,16 +19,13 @@ public class DancerSaveProcessServlet extends HttpServlet {
     // 댄서들을 모아놓을 리스트
     public static List<Dancer> dancerList = new ArrayList<>();
 
-
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
         System.out.println("댄서 정보 등록중....");
 
         // form에서 전송한 데이터 한글 인코딩
         req.setCharacterEncoding("utf-8");
 
-        System.out.println(req.getQueryString());
         String name = req.getParameter("name");
         String crewName = req.getParameter("crewName");
         String danceLevel = req.getParameter("danceLevel");
@@ -46,7 +43,6 @@ public class DancerSaveProcessServlet extends HttpServlet {
         dancer.setDanceLevel(Dancer.DanceLevel.valueOf(danceLevel));
 
         List<Dancer.Genre> genreList = new ArrayList<>();
-
         for (String genre : genres) {
             genreList.add(Dancer.Genre.valueOf(genre));
         }
@@ -63,19 +59,17 @@ public class DancerSaveProcessServlet extends HttpServlet {
 
         PrintWriter w = resp.getWriter();
 
-
         w.write("<!DOCTYPE html>\n");
         w.write("<html>\n");
         w.write("<head>\n");
         w.write("</head>\n");
         w.write("<body>\n");
 
-        w.write("<h1>" + dancer.getName() + "님이 등록되었습니다. </h1>\n");
-        w.write("<a href=\"/chap02/dancer/show-list\">댄서 정보 모아보기</a>\n");
+        w.write("<h1>" + dancer.getName() + "님이 등록되었습니다. </h1>");
+        w.write("<a href=\"/chap02/dancer/show-list\">댄서 정보 모아보기</a>");
 
         w.write("</body>\n");
         w.write("</html>");
-
 
     }
 }

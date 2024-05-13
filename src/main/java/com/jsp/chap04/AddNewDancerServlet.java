@@ -3,6 +3,7 @@ package com.jsp.chap04;
 import com.jsp.entity.Dancer;
 import com.jsp.repository.DancerJdbcRepo;
 import com.jsp.repository.DancerMemoryRepo;
+import com.jsp.repository.DancerRepository;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -15,12 +16,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 // 역할: 새로운 댄서 정보를 데이터베이스에 등록하기 위해
-//       댄서 정보들을 파싱(가져와서 처리)하는 역할
+//       댄서 정보들을 가져와서 처리하는 역할
 @WebServlet("/chap04/new-dancer")
 public class AddNewDancerServlet extends HttpServlet {
 
 //    private DancerMemoryRepo repo = DancerMemoryRepo.getInstance();
-    private DancerJdbcRepo repo = DancerJdbcRepo.getInstance();
+//    private DancerJdbcRepo repo = DancerJdbcRepo.getInstance();
+
+    private DancerRepository repo;
+
+    public AddNewDancerServlet(DancerRepository repo) {
+        this.repo = repo;
+    }
 
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -32,7 +39,6 @@ public class AddNewDancerServlet extends HttpServlet {
         String crewName = req.getParameter("crewName");
         String danceLevel = req.getParameter("danceLevel");
         String[] genres = req.getParameterValues("genres");
-
 
         // 댄서 객체 생성
         Dancer dancer = new Dancer();
@@ -59,10 +65,12 @@ public class AddNewDancerServlet extends HttpServlet {
 //        req.setAttribute("name", name);
 //        req.setAttribute("crew", crewName);
 //        req.setAttribute("level", danceLevel);
+
         req.setAttribute("d", dancer);
 
         // 적당한 HTML(JSP) 응답
-        RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/chap04/result.jsp");
+        RequestDispatcher rd
+                = req.getRequestDispatcher("/WEB-INF/chap04/result.jsp");
         rd.forward(req, resp);
 
     }

@@ -10,15 +10,19 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+CREATE TABLE tbl_dancer (
+	id INT(8) PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(255),
+    crew_name VARCHAR(255),
+    dance_level VARCHAR(50)
+);
+
+ */
+
 // 역할: 실제 데이터베이스에 댄서들을 CRUD
 // Model
-public class DancerJdbcRepo {
-
-    private String username = "root"; // db 계정명
-    private String password = "mariadb"; // db 패스워드
-    private String url = "jdbc:mariadb://localhost:3306/spring5"; // db url 데이터베이스 설치 위치
-    private String driverClassName = "org.mariadb.jdbc.Driver"; // db 벤더별 전용 커넥터 클래스
-
+public class DancerJdbcRepo implements DancerRepository {
 
     private static DancerJdbcRepo repo = new DancerJdbcRepo();
 
@@ -30,15 +34,19 @@ public class DancerJdbcRepo {
         return repo;
     }
 
+    private String username = "root"; // db계정명
+    private String password = "mariadb"; // db 패스워드
+    private String url = "jdbc:mariadb://localhost:3306/spring5"; // db url : 데이터베이스 설치 위치
+    private String driverClassName = "org.mariadb.jdbc.Driver"; // db벤더별 전용 커넥터 클래스
+
     // 댄서를 데이터베이스에 저장하는 기능
     public boolean save(Dancer dancer) {
-        //1. 연결 드라이버 로딩
-        try (Connection conn = DriverManager.getConnection(url, username, password);) {
+        try (Connection conn
+                     = DriverManager.getConnection(url, username, password)) {
             Class.forName(driverClassName);
-            // 2. 데이터베이스 접속
-            // 3. 실행할 SQL 생성
+
             String sql = "INSERT INTO tbl_dancer " +
-                    "(name, crew_name, dance_level)" +
+                    "(name, crew_name, dance_level) " +
                     "VALUES (?, ?, ?)";
 
             // 4. SQL 실행 객체 생성
@@ -50,7 +58,7 @@ public class DancerJdbcRepo {
             pstmt.setString(3, dancer.getDanceLevel().toString());
 
             // 6. 실행 명령
-            // INSERT, UPDATE< DELETE 같은 명령을 사용 <- select만 다름
+            // INSERT, UPDATE, DELETE 같은 명령을 사용
             pstmt.executeUpdate();
             return true;
 
@@ -62,17 +70,20 @@ public class DancerJdbcRepo {
         }
     }
 
-    // 댄서리스트를 반환하는 기능 - DB select로 조회해옴
+    // 댄서리스트를 반환하는 기능
     public List<Dancer> retrieve() {
-        try (Connection conn = DriverManager.getConnection(url, username, password);){
+
+        try (Connection conn = DriverManager.getConnection(url, username, password)) {
 
             Class.forName(driverClassName);
+
             String sql = "SELECT * FROM tbl_dancer";
 
             // SQL 실행 객체 생성
             PreparedStatement pstmt = conn.prepareStatement(sql);
 
             // ? 채우기
+
             // 실행 명령 - SELECT는 다른 메서드를 사용
             // ResultSet : SELECT의 결과집합 표를 가져옴
             ResultSet rs = pstmt.executeQuery();
@@ -87,6 +98,7 @@ public class DancerJdbcRepo {
                 String danceLevel = rs.getString("dance_level");
 
                 Dancer dancer = new Dancer();
+                dancer.setId(id);
                 dancer.setName(name);
                 dancer.setCrewName(crewName);
                 dancer.setDanceLevel(Dancer.DanceLevel.valueOf(danceLevel));
@@ -99,6 +111,25 @@ public class DancerJdbcRepo {
             e.printStackTrace();
             return null;
         }
+
     }
 
+    public void delete(String id) {
+
+        try (Connection conn = DriverManager.getConnection(url, username, password)) {
+
+            Class.forName(driverClassName);
+
+            String sql = "DELETE FROM tbl_dancer WHERE id = ?";
+
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, id);
+
+            pstmt.executeUpdate();
+
+
+        } catch (Exception e) {
+
+        }
+    }
 }

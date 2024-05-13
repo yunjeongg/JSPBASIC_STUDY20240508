@@ -3,18 +3,18 @@ package com.jsp.chap05;
 import java.util.Objects;
 
 public class Person {
-    private int id;
-    private String name;
-    private int age;
 
-    public Person(int id, String name, int age) {
+    private int id;
+    private String personName;
+    private int personAge;
+
+    public Person(int id, String personName, int personAge) {
         this.id = id;
-        this.name = name;
-        this.age = age;
+        this.personName = personName;
+        this.personAge = personAge;
     }
 
     public int getId() {
-
         return id;
     }
 
@@ -22,41 +22,41 @@ public class Person {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getPersonName() {
+        return personName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setPersonName(String personName) {
+        this.personName = personName;
     }
 
-    public int getAge() {
-        return age;
+    public int getPersonAge() {
+        return personAge;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setPersonAge(int personAge) {
+        this.personAge = personAge;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Person person = (Person) o;
+        return id == person.id && personAge == person.personAge && Objects.equals(personName, person.personName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, personName, personAge);
     }
 
     @Override
     public String toString() {
         return "Person{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
-                ", age=" + age +
+                ", personName='" + personName + '\'' +
+                ", personAge=" + personAge +
                 '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Person)) return false;
-        Person person = (Person) o;
-        return id == person.id && age == person.age && Objects.equals(name, person.name);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, age);
     }
 }
