@@ -1,3 +1,5 @@
+tomcat.8181
+
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
@@ -36,3 +38,8 @@ build/
 
 ### Mac OS ###
 .DS_Store
+/.idea/encodings.xml
+/.idea/material_theme_project_new.xml
+/.idea/misc.xml
+/.idea/vcs.xml
+/.idea/workspace.xml
